@@ -5,11 +5,15 @@ import { User } from './schemas/user.schema';
 import { UsersRepository } from './users.repository';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import * as dotenv from 'dotenv';
+
 import {
   ErrorResponse,
   LoginResponse,
   MessageResponse,
 } from './types/reponse.types';
+
+dotenv.config();
 
 @Injectable()
 export class UsersService {
@@ -97,9 +101,10 @@ export class UsersService {
         email: user.email,
         username: user.username,
       };
+
       // generating accessToken
       const accessToken = await this.jwtService.sign(payload, {
-        secret: 'zxa234s31s434m3uasdasdasda3b463bn383342',
+        secret: process.env.JWT_SECRET,
         expiresIn: '120d',
       });
 
